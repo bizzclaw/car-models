@@ -12,7 +12,7 @@
 					<v-list v-else>
 						<v-list-item v-for="(vehiclesType, index) in vehicleTypes" :key="index" :to="`/makes/${vehiclesType.id}`">
 							<v-list-item-icon>
-								<v-avatar color="success">
+								<v-avatar color="info">
 									<div class="white--text">{{vehiclesType.code}}</div>
 								</v-avatar>
 							</v-list-item-icon>

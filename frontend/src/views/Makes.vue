@@ -16,7 +16,7 @@
 					<v-autocomplete
 						:loading="loading"
 						:disabled="loading"
-						:items="getTypeMakes()"
+						:items="typeMakes"
 						item-text="description"
 						item-value="id"
 						placeholder="Make"
@@ -25,11 +25,11 @@
 					/>
 
 					<section v-if="!loading && selectedMake">
-						<v-alert v-if="getModels().length == 0" type="error">
+						<v-alert v-if="typeMakeModels.length == 0" type="error">
 							No Car Models Found for {{selectedMake.description}}!
 						</v-alert>
 						<v-list v-else>
-							<v-list-item v-for="(model, index) in getModels()" :key="index">
+							<v-list-item v-for="(model, index) in typeMakeModels" :key="index">
 								<v-list-item-icon>
 									<v-avatar color="success">
 										<div class="white--text">{{model.description[0]}}</div>
@@ -85,15 +85,15 @@ export default {
 				vehicleTypeId: this.vehicleTypeId,
 				makeCode: this.selectedMake.code
 			}
-		}
+		},
+		typeMakes() {
+			return this.getTypeMakes()
+		},
+		typeMakeModels() {
+			return this.getTypeMakeModels()
+		},
 	},
 	methods: {
-		getTypeMakes() {
-			return this.makes[this.vehicleTypeId]
-		},
-		getModels() {
-			return this.models[this.selectedMake.code] || [];
-		},
 		async loadMakes() {
 			this.loadingMakes = true
 			await this.$store.dispatch("loadMakes", this.vehicleTypeId)
@@ -103,6 +103,12 @@ export default {
 			this.loadingModels = true
 			await this.$store.dispatch("loadModels", this.modelPayload)
 			this.loadingModels = false
+		},
+		getTypeMakes() {
+			return this.makes[this.vehicleTypeId]
+		},
+		getTypeMakeModels() {
+			return this.models[this.vehicleTypeId] ? this.models[this.vehicleTypeId][this.selectedMake.code] : [];
 		}
 	},
 }

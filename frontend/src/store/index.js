@@ -26,7 +26,10 @@ export default new Vuex.Store({
       state.makes[payload.vehicleTypeId] = payload.makes
     },
     syncModels(state, data) {
-      state.models[data.makeCode] = data.models
+
+      state.models[data.vehicleTypeId] = state.models[data.vehicleTypeId] || {}
+
+      state.models[data.vehicleTypeId][data.makeCode] = data.models
     }
   },
   actions: {
@@ -38,7 +41,7 @@ export default new Vuex.Store({
       const response = await axios.get(`${api}/makes/${type}`)
 
       const data = {
-        vehicleTypeId: type,
+        vehicleTypeId: parseInt(type),
         makes: response.data.makes
       }
 
@@ -49,6 +52,7 @@ export default new Vuex.Store({
       const response = await axios.get(`${api}/models/${payload.vehicleTypeId}/${payload.makeCode}`)
 
       const data = {
+        vehicleTypeId: parseInt(payload.vehicleTypeId),
         makeCode: payload.makeCode,
         models: response.data.models
       }
