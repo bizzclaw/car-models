@@ -1,18 +1,25 @@
 <template>
-	<div class="vehicle-types">
+	<div class="makes">
 		<v-container class="d-flex justify-center flex-column" style="height: 100%;">
 			<v-card>
-				<v-card-title class="success white--text">
-					Find Your Vehicle
+				<v-card-title class="info white--text">
+					<v-row pa-0>
+						<v-col lg=8>
+							<h3>Vehicle Make</h3>
+						</v-col>
+						<v-col lg=4 class="d-flex justify-end">
+							<v-btn color="success" to="/">back</v-btn>
+						</v-col>
+					</v-row>
 				</v-card-title>
 				<div class="pa-5">
-					<v-select
+					<v-autocomplete
 						:loading="loading"
 						:disabled="loading"
-						:items="vehicleTypes"
+						:items="typeMakes()"
 						item-text="description"
 						item-value="id"
-						placeholder="What type of Vehicle?"
+						placeholder="Make"
 					/>
 				</div>
 			</v-card>
@@ -29,27 +36,38 @@ export default {
 	},
 	data() {
 		return {
-			loading: false
+			loadingMakes: false,
+			loadingModels: false
 		}
 	},
 	computed: {
 		...mapGetters([
-			"makes"
-		])
+			"makes",
+			"models"
+		]),
+		typeId () {
+			return this.$route.params.type
+		},
+		loading () {
+			return this.loadingMakes || this.loadingModels
+		}
 	},
 	methods: {
 		async loadMakes() {
-			this.loading = true
-			await this.$store.dispatch("loadMakes")
-			this.loading = false
+			this.loadingMakes = true
+			await this.$store.dispatch("loadMakes", this.typeId)
+			this.loadingMakes = false
+		},
+		typeMakes () {
+			return this.makes[this.typeId]
 		}
 	},
 }
 </script>
 
 <style lang="scss" scoped>
-	.vehicle-types {
-		background-image: url("https://i.imgur.com/3qKdYt4.jpg");
+	.makes {
+		background-image: url("https://i.imgur.com/Cmnrjfz.jpg");
 		background-position: center center;
 		background-size: cover;
 		width: 100%;

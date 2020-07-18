@@ -137,11 +137,11 @@ class VehicleType
     }
 
     public function toArray()
-{
-    return [
-        'id' => $this->getId(),
-        'code' => $this->getCode(),
-        'description' => $this->getDescription(),
-    ];
-}
+    {
+        return [
+            'id' => $this->getId(),
+            'code' => $this->getCode(),
+            'description' => $this->getDescription(),
+        ];
+    }
 }

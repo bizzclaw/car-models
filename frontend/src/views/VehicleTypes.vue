@@ -3,17 +3,27 @@
 		<v-container class="d-flex justify-center flex-column" style="height: 100%;">
 			<v-card>
 				<v-card-title class="success white--text">
-					Find Your Vehicle
+					Select a Vehicle Type
 				</v-card-title>
 				<div class="pa-5">
-					<v-select
-						:loading="loading"
-						:disabled="loading"
-						:items="vehicleTypes"
-						item-text="description"
-						item-value="id"
-						placeholder="What type of Vehicle?"
-					/>
+					<section v-if="loading">
+						<v-skeleton-loader v-for="i in 5" :key="i" type="list-item-avatar" class="mx-auto"/>
+					</section>
+					<section v-else>
+						<v-list-item v-for="(vehiclesType, index) in vehicleTypes" :key="index">
+							<v-list-item-icon>
+								<v-avatar color="success">
+									<div class="white--text">{{vehiclesType.code}}</div>
+								</v-avatar>
+							</v-list-item-icon>
+							<v-list-item-content>
+								<v-list-item-title>{{vehiclesType.description}}</v-list-item-title>
+							</v-list-item-content>
+							<v-list-item-icon>
+								<v-btn color="success" text :to="`/makes/${vehiclesType.id}`">Select</v-btn>
+							</v-list-item-icon>
+						</v-list-item>
+					</section>
 				</div>
 			</v-card>
 		</v-container>
@@ -49,7 +59,7 @@ export default {
 
 <style lang="scss" scoped>
 	.vehicle-types {
-		background-image: url("https://i.imgur.com/Cmnrjfz.jpg");
+		background-image: url("https://i.imgur.com/3qKdYt4.jpg");
 		background-position: left center;
 		background-size: cover;
 		width: 100%;

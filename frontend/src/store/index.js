@@ -6,6 +6,8 @@ Vue.use(Vuex)
 
 const api = process.env.VUE_APP_API_URL
 
+console.log()
+
 export default new Vuex.Store({
   state: {
     vehicleTypes: [],
@@ -20,11 +22,10 @@ export default new Vuex.Store({
       state.vehicleTypes = vehicleTypes
       state.vehicleTypes.sort((a, b) => a.description < b.description ? -1 : 1)
     },
-    syncMakes(state, makes) {
-      makes.forEach(make => {
-        state.makes[make.type_id] = state.makes[make.type_id] || {}
-        state.makes[make.type_id][make.id] = make
-      });
+    syncMakes(state, data) {
+      state.makes[data.vehicleTypeId] = data.makes
+
+      console.log(state.makes)
     }
   },
   actions: {
@@ -34,7 +35,13 @@ export default new Vuex.Store({
     },
     async loadMakes(context, type) {
       const response = await axios.get(`${api}/makes/${type}`)
-      context.commit("setVehicleTypes", response.data.vehicle_types)
+
+      const data = {
+        vehicleTypeId: type,
+        makes: response.data.makes
+      }
+
+      context.commit("syncMakes", data, type)
     }
   },
   modules: {}

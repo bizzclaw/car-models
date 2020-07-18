@@ -33,4 +33,22 @@ class VehicleTypeController
 
         return new JsonResponse(['vehicle_types' => $data], Response::HTTP_CREATED);
     }
+    
+    /**
+     * @Route("/makes/{typeId}", name="get_makes", methods={"GET"})
+    */
+    public function getMakes($typeId): JsonResponse
+    {
+        $vehicleType = $this->vehicleTypeRepository->find($typeId);
+        $makes = $vehicleType->getMakes();
+
+        $data=[];
+        foreach ($makes as $make) {
+            $item = $make->toArray();
+            $item['vehicle_type_id'] = $typeId;
+            $data[] = $item;
+        }
+
+        return new JsonResponse(['makes' => $data], Response::HTTP_CREATED);
+    }
 }
