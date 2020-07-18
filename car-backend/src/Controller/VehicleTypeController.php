@@ -13,6 +13,7 @@ use App\Repository\VehicleTypeRepository;
 use App\Entity\VehicleType;
 use App\Entity\Make;
 use App\Entity\Model;
+use App\Entity\SearchLog;
 
 
 class VehicleTypeController extends AbstractController
@@ -70,7 +71,7 @@ class VehicleTypeController extends AbstractController
 /**
      * @Route("/models/{typeId}/{makeCode}", name="get_models", methods={"GET"})
     */
-    public function getModels($typeId, $makeCode): JsonResponse
+    public function getModels(Request $request, $typeId, $makeCode): JsonResponse
     {
         $entityManager = $this->getDoctrine()->getManager();
 
@@ -86,6 +87,24 @@ class VehicleTypeController extends AbstractController
             $item = $model->toArray();
             $data[] = $item;
         }
+
+        $logRepo = $entityManager->getRepository(SearchLog::class);
+
+        $referenceVehicleType = $entityManager->getReference(VehicleType::class,  intval($typeId));
+        $userAgent = $_SERVER['HTTP_USER_AGENT'];
+        $requestTime = $_SERVER['REQUEST_TIME'];
+
+        $log = new SearchLog();
+        $log->setVehicleType($referenceVehicleType); // NOTE: This will throw an exception error if the vehicle type is invalid in the DB, but validating would take extra time.
+        $log->setMakeAbbr($makeCode);
+        $log->setResultCount(count($models));
+        $log->setRequestTime($requestTime);
+        $log->setIpAddress($request->getClientIp());
+        $log->SetUserAgent($userAgent);
+
+        $entityManager->persist($log);
+
+        $entityManager->flush();
 
         return $this->json(['models' => $data]);
     }

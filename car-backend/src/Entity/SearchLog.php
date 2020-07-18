@@ -42,6 +42,11 @@ class SearchLog
      */
     private $userAgent;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $resultCount;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -103,6 +108,18 @@ class SearchLog
     public function setUserAgent(?string $userAgent): self
     {
         $this->userAgent = $userAgent;
+
+        return $this;
+    }
+
+    public function getResultCount(): ?int
+    {
+        return $this->resultCount;
+    }
+
+    public function setResultCount(?int $resultCount): self
+    {
+        $this->resultCount = $resultCount;
 
         return $this;
     }
