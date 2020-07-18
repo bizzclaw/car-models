@@ -5,12 +5,12 @@
 				<v-card-title class="success white--text">
 					Select a Vehicle Type
 				</v-card-title>
-				<div class="pa-5">
-					<section v-if="loading">
-						<v-skeleton-loader v-for="i in 5" :key="i" type="list-item-avatar" class="mx-auto"/>
-					</section>
-					<section v-else>
-						<v-list-item v-for="(vehiclesType, index) in vehicleTypes" :key="index">
+				<div class="py-5">
+					<v-list v-if="loading">
+						<v-skeleton-loader v-for="i in 10" :key="i" type="list-item-avatar" class="mx-auto"/>
+					</v-list>
+					<v-list v-else>
+						<v-list-item v-for="(vehiclesType, index) in vehicleTypes" :key="index" :to="`/makes/${vehiclesType.id}`">
 							<v-list-item-icon>
 								<v-avatar color="success">
 									<div class="white--text">{{vehiclesType.code}}</div>
@@ -19,11 +19,8 @@
 							<v-list-item-content>
 								<v-list-item-title>{{vehiclesType.description}}</v-list-item-title>
 							</v-list-item-content>
-							<v-list-item-icon>
-								<v-btn color="success" text :to="`/makes/${vehiclesType.id}`">Select</v-btn>
-							</v-list-item-icon>
 						</v-list-item>
-					</section>
+					</v-list>
 				</div>
 			</v-card>
 		</v-container>

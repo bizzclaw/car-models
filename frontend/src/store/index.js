@@ -4,28 +4,29 @@ import axios from 'axios'
 
 Vue.use(Vuex)
 
-const api = process.env.VUE_APP_API_URL
-
-console.log()
+const api = process.env.VUE_APP_API_URL || ''
 
 export default new Vuex.Store({
   state: {
     vehicleTypes: [],
-    makes: {}
+    makes: {},
+    models: {}
   },
   getters: {
     vehicleTypes: state => state.vehicleTypes,
-    makes: state => state.makes
+    makes: state => state.makes,
+    models: state => state.models,
   },
   mutations: {
     setVehicleTypes(state, vehicleTypes) {
       state.vehicleTypes = vehicleTypes
       state.vehicleTypes.sort((a, b) => a.description < b.description ? -1 : 1)
     },
-    syncMakes(state, data) {
-      state.makes[data.vehicleTypeId] = data.makes
-
-      console.log(state.makes)
+    syncMakes(state, payload) {
+      state.makes[payload.vehicleTypeId] = payload.makes
+    },
+    syncModels(state, data) {
+      state.models[data.makeCode] = data.models
     }
   },
   actions: {
@@ -42,6 +43,17 @@ export default new Vuex.Store({
       }
 
       context.commit("syncMakes", data, type)
+    },
+    async loadModels(context, payload) {
+
+      const response = await axios.get(`${api}/models/${payload.vehicleTypeId}/${payload.makeCode}`)
+
+      const data = {
+        makeCode: payload.makeCode,
+        models: response.data.models
+      }
+
+      context.commit("syncModels", data)
     }
   },
   modules: {}

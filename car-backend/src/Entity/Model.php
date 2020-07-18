@@ -32,6 +32,11 @@ class Model
      */
     private $make;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $makeCode;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -71,5 +76,26 @@ class Model
         $this->make = $make;
 
         return $this;
+    }
+
+    public function getMakeCode(): ?string
+    {
+        return $this->makeCode;
+    }
+
+    public function setMakeCode(?string $makeCode): self
+    {
+        $this->makeCode = $makeCode;
+
+        return $this;
+    }
+
+    public function toArray()
+    {
+        return [
+            'id' => $this->getId(),
+            'makeCode' => $this->getMakeCode(),
+            'description' => $this->getDescription(),
+        ];
     }
 }

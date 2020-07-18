@@ -64,6 +64,7 @@ class AppFixtures extends Fixture
                 $model = new Model();
                 $model->setDescription($description);
                 $model->setMake($make);
+                $model->setMakeCode($makeKey);
                 $model->setType($make->getType());
                 $manager->persist($model);
             }

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -9,7 +10,12 @@ use Symfony\Component\Routing\Annotation\Route;
 
 use App\Repository\VehicleTypeRepository;
 
-class VehicleTypeController
+use App\Entity\VehicleType;
+use App\Entity\Make;
+use App\Entity\Model;
+
+
+class VehicleTypeController extends AbstractController
 {
 
     private $vehicleTypeRepository;
@@ -22,7 +28,7 @@ class VehicleTypeController
     /**
      * @Route("/vehicle-types", name="get_vehicle_types", methods={"GET"})
     */
-    public function get(Request $request): JsonResponse
+    public function getVehicleTypes(Request $request): JsonResponse
     {
         $vehicleTypes = $this->vehicleTypeRepository->findAll();
 
@@ -31,7 +37,17 @@ class VehicleTypeController
             $data[] = $vehicle->toArray();
         }
 
-        return new JsonResponse(['vehicle_types' => $data], Response::HTTP_CREATED);
+        return $this->json(['vehicle_types' => $data]);
+    }
+
+    /**
+     * @Route("/vehicle-types/{typeId}", name="get_vehicle_type", methods={"GET"})
+    */
+    public function getVehicleType($id): JsonResponse
+    {
+        $vehicleType = $this->vehicleTypeRepository->find($typeId);
+        $data = $vehicleType->toArray();
+        return $this->json(['vehicle_type' => $data]);
     }
     
     /**
@@ -45,10 +61,32 @@ class VehicleTypeController
         $data=[];
         foreach ($makes as $make) {
             $item = $make->toArray();
-            $item['vehicle_type_id'] = $typeId;
             $data[] = $item;
         }
 
-        return new JsonResponse(['makes' => $data], Response::HTTP_CREATED);
+        return $this->json(['makes' => $data]);
+    }
+
+/**
+     * @Route("/models/{typeId}/{makeCode}", name="get_models", methods={"GET"})
+    */
+    public function getModels($typeId, $makeCode): JsonResponse
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $models = $entityManager
+        ->getRepository(Model::class)
+        ->findBy([
+            'makeCode' => $makeCode,
+            'type' => $typeId
+        ]);
+
+        $data=[];
+        foreach ($models as $model) {
+            $item = $model->toArray();
+            $data[] = $item;
+        }
+
+        return $this->json(['models' => $data]);
     }
 }

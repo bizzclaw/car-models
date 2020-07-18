@@ -47,7 +47,7 @@ in the .env file in /car-backend, add the following line but substitute the plac
 DATABASE_URL=mysql://username:password@127.0.0.1:3306/database_name?serverVersion=5.7
 ```
 
-the final step before you can deploy is to build the database using the json fixtures. In a terminal from the backend folder, enter this command:
+the final step before you can deploy is to build the database migrations and fill it using the json fixtures. In a terminal from the backend folder, enter this command:
 
 ```BASH
 bin/console doctrine:fixtures:load
