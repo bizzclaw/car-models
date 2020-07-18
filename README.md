@@ -25,6 +25,8 @@ The backend of the project, structured as a simple RESTful API made with Symfony
 
 The frontend of the application, made with VUE and Vuetify.
 
+[Sample Video](https://dl.dropboxusercontent.com/s/c9zjtda47wx99qf/2020-07-18%2012-42-49.mp4) (Dropbox MP4 File)
+
 ## Installing
 
 ### Backend

@@ -2,7 +2,7 @@
 	<div class="vehicle-types">
 		<v-container class="d-flex justify-center flex-column" style="height: 100%;">
 			<v-card>
-				<v-card-title class="success white--text">
+				<v-card-title class="info white--text">
 					Select a Vehicle Type
 				</v-card-title>
 				<div class="py-5">

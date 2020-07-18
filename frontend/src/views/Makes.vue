@@ -16,7 +16,7 @@
 					<v-autocomplete
 						:loading="loading"
 						:disabled="loading"
-						:items="typeMakes"
+						:items="getTypeMakes()"
 						item-text="description"
 						item-value="id"
 						placeholder="Make"
