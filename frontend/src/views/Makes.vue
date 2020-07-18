@@ -25,7 +25,7 @@ import {mapGetters} from 'vuex'
 
 export default {
 	created() {
-		this.loadVehicleTypes()
+		this.loadMakes()
 	},
 	data() {
 		return {
@@ -34,13 +34,13 @@ export default {
 	},
 	computed: {
 		...mapGetters([
-			"vehicleTypes"
+			"makes"
 		])
 	},
 	methods: {
-		async loadVehicleTypes() {
+		async loadMakes() {
 			this.loading = true
-			await this.$store.dispatch("loadVehicleTypes")
+			await this.$store.dispatch("loadMakes")
 			this.loading = false
 		}
 	},
@@ -49,8 +49,8 @@ export default {
 
 <style lang="scss" scoped>
 	.vehicle-types {
-		background-image: url("https://i.imgur.com/Cmnrjfz.jpg");
-		background-position: left center;
+		background-image: url("https://i.imgur.com/3qKdYt4.jpg");
+		background-position: center center;
 		background-size: cover;
 		width: 100%;
 		height: 100%;

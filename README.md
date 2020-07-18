@@ -73,3 +73,10 @@ npm install -g @vue/cli
 3. There should be an API route for /models/{type}/{makeCode} where type is the vehicle type and makeCode is the make of the selected vehicle.
 	- Will return details about the vehicle in JSON.
 4. All requests should be logged using an entity called *"SearchLog"*
+
+## Legal
+
+Stock Images by:
+-[JESHOOTS.com](https://www.pexels.com/@jeshoots-com-147458)
+-[Tomáš Malík](https://www.pexels.com/@tomas-malik-793526)
+-[Andrea Piacquadio](https://www.pexels.com/@olly)
