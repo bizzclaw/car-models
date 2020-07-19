@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project is a simple frontend / backend application that will allow you to lookup different models of vehicles by their type.
+This project is a simple frontend / backend application that will allow you to lookup different models of vehicles by their type and make.
 
 ## Requirements
 
